@@ -1,20 +1,25 @@
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import { UltraProvider } from "./provider.ts";
-import { flushEffectHandler } from "./context/flushEffects.ts";
+import { getServerInsertedHTML } from "./context/serverInsertedHtml.ts";
 import { createFlushDataStreamHandler } from "./context/dataStream.ts";
-import { fromFileUrl } from "./deps.ts";
 import type { Context } from "./types.ts";
 import { log } from "./logger.ts";
-import { continueFromInitialStream, renderToInitialStream } from "./stream.ts";
+import {
+  continueFromInitialStream,
+  renderToInitialStream,
+  streamToString,
+} from "./stream.ts";
 import { ImportMap } from "./types.ts";
 
 type RenderToStreamOptions = ReactDOMServer.RenderToReadableStreamOptions & {
   baseUrl: string;
   importMap: ImportMap | undefined;
   assetManifest: Map<string, string> | undefined;
+  enableEsModuleShims?: boolean;
+  esModuleShimsPath?: string;
   generateStaticHTML?: boolean;
-  flushEffectsToHead?: boolean;
+  serverInsertedHTMLToHead?: boolean;
   disableHydration?: boolean;
 };
 
@@ -25,6 +30,13 @@ log.debug(
   }`,
 );
 
+export async function renderToString(element: React.ReactElement) {
+  const renderStream = await ReactDOMServer.renderToReadableStream(element);
+  await renderStream.allReady;
+
+  return streamToString(renderStream);
+}
+
 export async function renderToStream(
   App: JSX.Element,
   context: Context | undefined,
@@ -34,20 +46,16 @@ export async function renderToStream(
     baseUrl,
     generateStaticHTML = false,
     disableHydration = false,
-    flushEffectsToHead = true,
+    serverInsertedHTMLToHead = true,
     importMap,
+    enableEsModuleShims,
+    esModuleShimsPath,
     assetManifest,
   } = options;
 
-  /**
-   * For each bootstrapModule we convert from a file url (file:///project/client.tsx) to
-   * a path string (/project/client.tsx).
-   */
   options.bootstrapModules = disableHydration
-    ? []
-    : options?.bootstrapModules?.map(
-      (url) => url.startsWith("file://") ? fromFileUrl(url) : url,
-    );
+    ? undefined
+    : options.bootstrapModules;
 
   options.onError = (error) => {
     log.error(error);
@@ -73,10 +81,13 @@ export async function renderToStream(
 
   return await continueFromInitialStream(renderStream, {
     generateStaticHTML,
-    flushEffectsToHead,
-    flushEffectHandler,
+    disableHydration,
+    getServerInsertedHTML,
+    serverInsertedHTMLToHead,
     flushDataStreamHandler,
     dataStream,
     importMap,
+    enableEsModuleShims,
+    esModuleShimsPath,
   });
 }

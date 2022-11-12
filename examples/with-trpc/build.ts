@@ -5,11 +5,12 @@ const builder = createBuilder({
   serverEntrypoint: import.meta.resolve("./server.tsx"),
 });
 
-builder.ignore("./README.md");
+builder.ignore([
+  "./README.md",
+  "./importMap.json",
+  "./*.dev.json",
+  "./*.test.ts",
+]);
 
-if (import.meta.main) {
-  // deno-lint-ignore no-unused-vars
-  const result = await builder.build();
-}
-
-export default builder;
+// deno-lint-ignore no-unused-vars
+const result = await builder.build();

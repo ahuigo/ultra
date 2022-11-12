@@ -8,23 +8,55 @@ import { toUltraUrl } from "./utils/url.ts";
 
 type UltraServerRenderOptions = {
   generateStaticHTML?: boolean;
+  enableEsModuleShims?: boolean;
   disableHydration?: boolean;
   flushEffectsToHead?: boolean;
+};
+
+type UltraServerOptions = {
+  mode: Mode;
+  importMapPath: string;
+  assetManifestPath: string;
+  enableEsModuleShims?: boolean;
+  esModuleShimsPath?: string;
+  entrypoint?: string;
 };
 
 export class UltraServer extends Hono {
   public importMap: ImportMap | undefined;
   public assetManifest: Map<string, string> | undefined;
 
+  public mode: Mode;
+  public baseUrl: string;
+  public importMapPath: string;
+  public assetManifestPath: string;
+  public enableEsModuleShims?: boolean;
+  public esModuleShimsPath?: string;
+  public entrypoint?: string;
+
+  #bootstrapModules?: string[];
+
   constructor(
     public root: string,
-    public mode: Mode,
-    public importMapPath: string,
-    public assetManifestPath: string,
-    public entrypoint?: string,
+    options: UltraServerOptions,
   ) {
     super();
-    this.use("*", logger((message) => log.info(message)));
+
+    this.mode = options.mode;
+    this.importMapPath = options.importMapPath;
+    this.assetManifestPath = options.assetManifestPath;
+    this.enableEsModuleShims = options.enableEsModuleShims;
+    this.esModuleShimsPath = options.esModuleShimsPath;
+    this.entrypoint = options.entrypoint;
+    this.baseUrl = this.mode === "development"
+      ? `${ULTRA_COMPILER_PATH}/`
+      : "/";
+
+    const logFn = options.mode === "development"
+      ? (message: string) => log.info(message)
+      : (message: string) => console.info(message);
+
+    this.use("*", logger(logFn));
   }
 
   async init() {
@@ -49,6 +81,17 @@ export class UltraServer extends Hono {
      * Prepare the entrypoint
      */
     this.entrypoint = this.#prepareEntrypoint(this.importMap!);
+
+    if (this.entrypoint) {
+      this.#bootstrapModules = [
+        this.entrypoint.startsWith("file://")
+          ? fromFileUrl(this.entrypoint)
+          : this.entrypoint,
+      ];
+    }
+
+    // Validate
+    this.#valid();
   }
 
   render(
@@ -63,14 +106,15 @@ export class UltraServer extends Hono {
     context: Context | undefined,
     options?: UltraServerRenderOptions,
   ) {
-    this.#valid();
     log.debug("Rendering component");
 
     return renderToStream(Component, context, {
-      baseUrl: this.mode === "development" ? `${ULTRA_COMPILER_PATH}/` : "/",
+      baseUrl: this.baseUrl,
       assetManifest: this.assetManifest,
       importMap: this.importMap,
-      bootstrapModules: this.entrypoint ? [this.entrypoint] : undefined,
+      enableEsModuleShims: this.enableEsModuleShims,
+      esModuleShimsPath: this.esModuleShimsPath,
+      bootstrapModules: this.#bootstrapModules,
       ...options,
     });
   }
@@ -108,7 +152,7 @@ export class UltraServer extends Hono {
     if (this.mode === "production") {
       for (const [specifier, resolved] of Object.entries(importMap.imports)) {
         if (specifier === entrypointSpecifier) {
-          entrypointSpecifier = resolved;
+          entrypointSpecifier = resolved.replace("./", "/");
         }
       }
     } else {

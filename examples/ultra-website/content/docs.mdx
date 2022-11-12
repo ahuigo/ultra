@@ -1,12 +1,20 @@
 # docs
 
-> 📝 These docs are a WIP of the beta release.
-
 Welp, if you've made it here, you probably have a basic **Ultra** project
 running. If not try this...
 
 ```bash
 deno run -A -r https://deno.land/x/ultra/create.ts
+```
+
+<small>FYI: You can pass custom options after this script to make this quicker in the future</small>
+
+`react-query` `wouter` `react-router` `twind` `stitches`
+
+Use it like...
+
+```bash
+deno run -A -r https://deno.land/x/ultra/create.ts twind react-query
 ```
 
 ---
@@ -96,22 +104,22 @@ More examples can be found [here](https://github.com/exhibitionist-digital/ultra
 ```js
 import useAsset from "ultra/hooks/use-asset.js";
 
-<link rel="preload" as="style" href={useAsset("./style.css")} />
+<link rel="preload" as="style" href={useAsset("/style.css")} />
 ```
 
 `useAsset` allows **Ultra** to version your assets during build for deploying to production. In development it's a non-op.
 
-#### [useFlushEffects](#useflusheffects)
+#### [useServerInsertedHTML](#useflusheffects)
 
 ```js
-import useFlushEffects from "ultra/hooks/use-flush-effects.js";
+import useServerInsertedHTML from "ultra/hooks/use-server-inserted-html.js";
 
 
 const ServerApp = function () {
   /**
-   * useFlushEffects will inject the returned output into the rendered stream.
+   * useServerInsertedHTML will inject the returned output into the rendered stream.
    */
-  useFlushEffects(() => {
+  useServerInsertedHTML(() => {
     // ...
   });
 

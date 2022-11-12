@@ -5,7 +5,6 @@ import HomePage from "./components/Home.tsx";
 import Docs from "./components/Docs.tsx";
 import Philosophy from "./components/Philosophy.tsx";
 import GitHub from "./components/Github.tsx";
-import { Helmet } from "react-helmet-async";
 
 export default function App() {
   const [pathname] = useLocation();
@@ -35,7 +34,7 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta
           name="description"
-          content="Hypermodern Zero-Legacy Deno/React Framework"
+          content="Zero-Legacy Deno/React Suspense SSR Framework"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href={useAsset("/favicon.ico")} />
@@ -53,11 +52,11 @@ export default function App() {
         />
         <meta
           property="og:description"
-          content="Hypermodern Zero-Legacy Deno/React Framework"
+          content="Zero-Legacy Deno/React Suspense SSR Framework"
         />
         <meta
           property="twitter:description"
-          content="Hypermodern Zero-Legacy Deno/React Framework"
+          content="Zero-Legacy Deno/React Suspense SSR Framework"
         />
       </head>
       <body>
@@ -82,15 +81,15 @@ export default function App() {
           </nav>
           <Switch>
             <Route path="/">
-              <Title title="The Quest for Zero-Legacy" />
+              <Title />
               <HomePage />
             </Route>
             <Route path="/philosophy">
-              <Title title="📖 Philosophy" />
+              <Title title="Ultra: 📖 Philosophy" />
               <Philosophy />
             </Route>
             <Route path="/docs">
-              <Title title="⚙️ Docs" />
+              <Title title="Ultra: ⚙️ Docs" />
               <Docs />
             </Route>
             <Route>
@@ -106,20 +105,6 @@ export default function App() {
   );
 }
 
-const Title = ({ title }: { title: string }) => (
-  <Helmet prioritizeSeoTags>
-    <title>Ultra: {title}</title>
-    <meta
-      property="og:title"
-      content={`Ultra: ${title}`}
-    />
-    <meta
-      property="twitter:title"
-      content={`Ultra: ${title}`}
-    />
-  </Helmet>
-);
-
 const Ultra = () => {
   return (
     <svg
@@ -134,5 +119,15 @@ const Ultra = () => {
         <path d="m144 230 81 114-15-167z" />
       </g>
     </svg>
+  );
+};
+
+const Title = ({ title = "Ultra: The Quest for Zero-Legacy" }) => {
+  return (
+    <>
+      <title>{`${title}`}</title>
+      <meta property="twitter:title" content={`${title}`} />
+      <meta property="og:title" content={`${title}`} />
+    </>
   );
 };

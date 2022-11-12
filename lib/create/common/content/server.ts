@@ -7,7 +7,7 @@ export function serverContent(config: Config) {
   const ext = fileExtension(config);
 
   return `
-import { serve } from "https://deno.land/std@0.153.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.159.0/http/server.ts";
 import { createServer, createRouter } from "ultra/server.ts";
 import App from "${ext("./src/app", true)}";
 
@@ -34,7 +34,7 @@ import { SearchParamsProvider } from "${ext("./src/wouter/index", true)}";
 ${
     p.reactHelmetAsync(`// React Helmet Async
 import { HelmetProvider } from "react-helmet-async";
-import useFlushEffects from "ultra/hooks/use-flush-effects.js";
+import useServerInsertedHTML from "ultra/hooks/use-server-inserted-html.js";
 `)
   }
 
@@ -49,9 +49,7 @@ import { queryClient } from "${ext("./src/react-query/query-client", false)}";
   }
 
   const server = await createServer({
-    importMapPath: Deno.env.get("ULTRA_MODE") === "development"
-      ? import.meta.resolve("./importMap.dev.json")
-      : import.meta.resolve("./importMap.json"),
+    importMapPath: import.meta.resolve("./importMap.json"),
     browserEntrypoint: import.meta.resolve("${ext("./client", true)}"),
   });
 
@@ -75,7 +73,7 @@ ${
 
 ${
     p.reactHelmetAsync(`
-useFlushEffects(() => {
+useServerInsertedHTML(() => {
    const { helmet } = helmetContext;
    return (
      <>

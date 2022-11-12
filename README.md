@@ -2,14 +2,14 @@
 <br />
 <img src="https://raw.githubusercontent.com/exhibitionist-digital/ultra/main/examples/ultra-website/public/ultra.svg" height="250" />
 
-### Ultra 2.0 (Milky Way)
+### Ultra 2.0
 
-#### Hypermodern Zero-Legacy Deno/React Framework<sup>*</sup>
+#### Zero-Legacy Deno/React Suspense SSR Framework<sup>*</sup>
 
 [![Discord][discord-badge]][discord]
-[![GitHub Workflow Status][actions-badge]][actions]
+![GitHub Workflow Status](https://github.com/exhibitionist-digital/ultra/actions/workflows/ci.yml/badge.svg)
 [![Deno module](https://shield.deno.dev/x/ultra)](https://deno.land/x/ultra)
-![Deno compatibility](https://shield.deno.dev/deno/^1.24.3)
+![Deno compatibility](https://shield.deno.dev/deno/^1.27.1)
 
 </div>
 
@@ -88,14 +88,15 @@ The **Ultra** community welcomes outside contributions. See the
 
 Here some things we are interested in for the future of JS and/or Ultra:
 
-- React [ESM exports](https://github.com/facebook/react/issues/11503)
+- React [ESM exports](https://github.com/facebook/react/issues/10021)
 - [AbTs: Anything but TypeScript](https://tc39.es/proposal-type-annotations)
 - Libraries supporting
   [optimal JavaScript module design](https://jaydenseric.com/blog/optimal-javascript-module-design)
-- React
-  [resources](https://github.com/facebook/react/commit/796d31809b3683083d3b62ccbab4f00dec8ffb1f)
-  for streaming head management
-- [Native import maps](https://caniuse.com/import-maps) support in Safari
+- React [resources](https://github.com/reactjs/rfcs/pull/219) for streaming head
+  management
+- React [async/await support](https://github.com/reactjs/rfcs/pull/229)
+- [Native import maps](https://caniuse.com/import-maps) support in Safari and
+  Firefox
 - [Dynamic import](https://github.com/denoland/deploy_feedback/issues/1) support
   on Deno Deploy
 - [Native CSS modules](https://css-tricks.com/css-modules-the-native-ones/)
@@ -107,5 +108,3 @@ Here some things we are interested in for the future of JS and/or Ultra:
 [docs]: https://ultrajs.dev/docs
 [discord-badge]: https://img.shields.io/discord/956480805088153620?logo=discord&label=Discord&color=000000&&logoColor=ffffff
 [discord]: https://discord.gg/XDC5WxGHb2
-[actions-badge]: https://img.shields.io/github/workflow/status/exhibitionist-digital/ultra/fmt%20+%20lint?color=000000&logo=github&label=Tests
-[actions]: https://github.com/exhibitionist-digital/ultra/actions
