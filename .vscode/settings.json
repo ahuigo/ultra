@@ -18,5 +18,6 @@
     "./examples/with-twind",
     "./examples/with-wouter",
     "./"
-  ]
+],
+"deno.codeLens.test": true
 }
