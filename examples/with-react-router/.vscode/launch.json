@@ -6,37 +6,28 @@
   "configurations": [
     {
       "request": "launch",
-      "name": "ultra",
+      "name": "react router",
       "type": "pwa-node",
-    //   "program": "${file}",
-      "program": "tools/dev.ts",
-    //   "program": "${workspaceFolder}/tools/dev.ts",
+      "program": "./server.tsx",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "/opt/homebrew/bin/deno",
       "runtimeArgs": [
         "run",
-        "-A",
-        "--inspect", "--inspect-brk",
+        "--config",
+        "./deno.dev.json",
+        "--inspect",
+        "--allow-all"
       ],
       "attachSimplePort": 9229
     },
     {
       "request": "launch",
-      "name": "react router",
+      "name": "Launch Program",
       "type": "pwa-node",
-      "program": "server.tsx",
-      "cwd": "${workspaceFolder}/examples/with-react-router",
+      "program": "${workspaceFolder}/main.ts",
+      "cwd": "${workspaceFolder}",
       "runtimeExecutable": "/opt/homebrew/bin/deno",
-      "env": {
-        "ULTRA_MODE": "development",
-      },
-      "runtimeArgs": [
-        "run",
-        "-A",
-        "--config", "./deno.dev.json",
-        "--reload=http://localhost:4507",
-        "--inspect", "--inspect-brk",
-      ],
+      "runtimeArgs": ["run", "--inspect", "--allow-all"],
       "attachSimplePort": 9229
     }
   ]
