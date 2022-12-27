@@ -23,6 +23,8 @@ error:
 ```
 deno fmt
 deno lint
+
+# you should kill process `deno task dev` first, otherwise port(4507) is occupied.
 deno task test
 ```
 
