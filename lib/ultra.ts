@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { ULTRA_COMPILER_PATH } from "./constants.ts";
+<<<<<<< HEAD
 import {
   fromFileUrl,
   Hono,
@@ -8,10 +9,14 @@ import {
   resolve,
   sprintf,
 } from "./deps.ts";
+=======
+import { fromFileUrl, Hono, logger, relative,resolve, sprintf } from "./deps.ts";
+>>>>>>> d89359c (chore: remove the dependency on dev port 4507)
 import { log } from "./logger.ts";
 import { renderToStream } from "./render.ts";
 import { Context, ImportMap, Mode } from "./types.ts";
 import { toUltraUrl } from "./utils/url.ts";
+
 
 type UltraServerRenderOptions = {
   generateStaticHTML?: boolean;
@@ -91,7 +96,11 @@ export class UltraServer extends Hono {
      * Prepare the entrypoint if provided an importMap
      */
     if (this.importMap) {
+<<<<<<< HEAD
       this.#importMapHandler(this.importMap);
+=======
+      this.#importMapHandler(this.importMap)
+>>>>>>> d89359c (chore: remove the dependency on dev port 4507)
       this.entrypoint = this.#prepareEntrypoint(this.importMap);
 
       if (this.entrypoint) {
@@ -154,6 +163,7 @@ export class UltraServer extends Hono {
 
   #importMapHandler(importMap: ImportMap | undefined) {
     if (importMap?.imports) {
+<<<<<<< HEAD
       const ultraUrl = importMap.imports["ultra/"];
       // Set importMap for ultra/ framework
       if (ultraUrl && !ultraUrl.startsWith("http")) {
@@ -163,6 +173,16 @@ export class UltraServer extends Hono {
           this.ultraDir = resolve(Deno.cwd(), ultraUrl);
         }
         importMap.imports["ultra/"] = "/ultra/";
+=======
+      const ultraUrl = importMap.imports['ultra/']
+      if (!ultraUrl.startsWith("http")) {
+        if (ultraUrl.startsWith("/")){
+          this.ultraDir = ultraUrl
+        } else {
+          this.ultraDir = resolve(Deno.cwd(), ultraUrl)
+        }
+        importMap.imports['ultra/']="/ultra/"
+>>>>>>> d89359c (chore: remove the dependency on dev port 4507)
       }
     }
   }
