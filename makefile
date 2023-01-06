@@ -1,8 +1,14 @@
+dev:
+	deno task dev
+
 .PHONY: test
 test:
-	deno test --allow-all --no-lock ./test/unit && \
-	cd test/fixture && deno test --no-lock --allow-all && \
-	cd ../../examples/basic && deno test -A && \
-	cd ../with-csr && deno test -A && \
-	cd ../with-unocss && deno test -A 
+	deno task test 
 
+clean:
+	rm -rf test/fixture/output
+	rm -rf examples/hdmap-ui/.ultra/
+	rm -rf test/fixture/.ultra
+
+fmt:
+	deno fmt .
