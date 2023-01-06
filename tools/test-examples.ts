@@ -13,7 +13,7 @@ async function testExample(example: string) {
       "-A",
       "./server.tsx",
     ];
-    console.log(examplePath, cmd);
+    console.log("test", examplePath, cmd);
     const process = Deno.run({
       cmd,
       cwd: examplePath,

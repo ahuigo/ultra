@@ -4,6 +4,7 @@ deno.lock
 NOTES.md
 *.png
 **/src/content
+hdmap-ui/
 
 # test fixture output
 test/fixture/output
