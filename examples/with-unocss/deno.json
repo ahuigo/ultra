@@ -9,7 +9,11 @@
   "compilerOptions": {
     "jsx": "react-jsxdev",
     "jsxImportSource": "react",
+<<<<<<< HEAD
     "lib": ["dom", "deno.ns", "dom.iterable", "dom.asynciterable"]
+=======
+    "lib":["dom","deno.ns","dom.iterable", "dom.asynciterable"]
+>>>>>>> bff16da (feat: add unittest for examples)
   },
   "importMap": "./importMap.json"
 }

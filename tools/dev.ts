@@ -1,9 +1,13 @@
 import { crayon } from "https://deno.land/x/crayon@3.3.2/mod.ts";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { join } from "https://deno.land/std@0.176.0/path/mod.ts";
 =======
 import { join } from "https://deno.land/std@0.155.0/path/mod.ts";
 >>>>>>> d89359c (chore: remove the dependency on dev port 4507)
+=======
+import { join } from "../lib/deps.ts";
+>>>>>>> bff16da (feat: add unittest for examples)
 
 type ImportMap = {
   imports: Record<string, string>;
@@ -20,6 +24,31 @@ export async function initExampleConfig(example: string) {
     const examplePath = join("examples", example);
     const devConfigPath = join(examplePath, "deno.dev.json");
     const devImportMapPath = join(examplePath, "importMap.dev.json");
+<<<<<<< HEAD
+=======
+
+    const config: Record<string, string> = JSON.parse(
+      await readTextFile(join(examplePath, "deno.json")),
+    );
+
+    const importMap: ImportMap = JSON.parse(
+      await readTextFile(join(examplePath, "importMap.json")),
+    );
+
+    importMap.imports["ultra/"] = `../../`;
+    config.importMap = "importMap.dev.json";
+
+    await Deno.writeTextFile(devConfigPath, JSON.stringify(config, null, 2));
+    await Deno.writeTextFile(
+      devImportMapPath,
+      JSON.stringify(importMap, null, 2),
+    );
+  } catch (error) {
+    console.error(error);
+    Deno.exit(1);
+  }
+}
+>>>>>>> bff16da (feat: add unittest for examples)
 
 <<<<<<< HEAD
     const config: Record<string, string> = JSON.parse(
@@ -29,14 +58,15 @@ export async function initExampleConfig(example: string) {
  * Start the dev example
  */
 async function dev() {
-    const examples: string[] = [];
-    for await (const entry of Deno.readDir("examples")) {
-      if (entry.isDirectory) {
-        examples.push(entry.name);
-      }
+  const examples: string[] = [];
+  for await (const entry of Deno.readDir("examples")) {
+    if (entry.isDirectory) {
+      examples.push(entry.name);
     }
-    const examplesSorted = examples.sort();
+  }
+  const examplesSorted = examples.sort();
 
+<<<<<<< HEAD
     const example = await ask(
       `${crayon.lightBlue("Which example are you working on?")} ${
         examplesSorted.map((example, index) => `\n(${index}) ${example}`)
@@ -132,11 +162,71 @@ async function dev() {
       },
     });
 
+=======
+  const example = await ask(
+    `${crayon.lightBlue("Which example are you working on?")} ${
+      examplesSorted.map((example, index) => `\n(${index}) ${example}`)
+    }\n`,
+    examplesSorted,
+  );
+
+  console.log("selected example:", example);
+
+  try {
+    const examplePath = join("examples", example);
+    initExampleConfig(example);
+
+    // Valid entrypoints for our examples
+    const serverEntrypoints = [
+      "./server.tsx",
+      "./server.jsx",
+      "./server.ts",
+      "./server.js",
+    ];
+
+    /**
+     * Find the entrypoint
+     */
+    const serverEntrypoint = await Promise.any<string>(
+      serverEntrypoints.map((entrypoint) => {
+        return new Promise((resolve, reject) => {
+          const fileInfo = Deno.lstatSync(join(examplePath, entrypoint));
+          if (fileInfo.isFile) {
+            resolve(entrypoint);
+          } else {
+            reject();
+          }
+        });
+      }),
+    );
+
+    /**
+     * Run the server with generated dev config
+     */
+    const process = Deno.run({
+      cmd: [
+        Deno.execPath(),
+        "run",
+        "-A",
+        "--watch",
+        //`--reload=http://localhost:4507`,
+        "-c",
+        "deno.dev.json",
+        serverEntrypoint,
+      ],
+      cwd: examplePath,
+      env: {
+        ULTRA_MODE: "development",
+      },
+    });
+
+>>>>>>> bff16da (feat: add unittest for examples)
     await process.status();
   } catch (error) {
     console.error(error);
     Deno.exit(1);
   }
+<<<<<<< HEAD
 }
 
 async function readTextFile(path: string) {
@@ -211,10 +301,22 @@ async function readTextFile(path: string) {
       console.error(error);
       Deno.exit(1);
     }
+=======
+>>>>>>> bff16da (feat: add unittest for examples)
 }
-dev()
 
+<<<<<<< HEAD
 >>>>>>> d89359c (chore: remove the dependency on dev port 4507)
+=======
+async function readTextFile(path: string) {
+  try {
+    return await Deno.readTextFile(path);
+  } catch (err) {
+    throw `failed to read ${path}, ` + err.stack;
+    // throw err
+  }
+}
+>>>>>>> bff16da (feat: add unittest for examples)
 
 async function ask<T = string>(question = ":", answers?: T[]) {
   await Deno.stdout.write(new TextEncoder().encode(question + " "));
