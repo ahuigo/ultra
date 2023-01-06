@@ -2,18 +2,17 @@ import { join } from "../lib/deps.ts";
 import { initExampleConfig } from "./dev.ts";
 
 async function testExample(example: string) {
-  initExampleConfig(example);
-  const examplePath = join("examples", example);
   try {
+    const examplePath = join("examples", example);
+    await initExampleConfig(example);
     const cmd = [
       Deno.execPath(),
       "test",
       "-c",
       "deno.dev.json",
       "-A",
-      "./server.tsx",
     ];
-    console.log("test", examplePath, cmd);
+    console.log("test ", examplePath, cmd);
     const process = Deno.run({
       cmd,
       cwd: examplePath,

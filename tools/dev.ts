@@ -97,7 +97,6 @@ async function dev() {
         "run",
         "-A",
         "--watch",
-        //`--reload=http://localhost:4507`,
         "-c",
         "deno.dev.json",
         serverEntrypoint,
@@ -119,8 +118,7 @@ async function readTextFile(path: string) {
   try {
     return await Deno.readTextFile(path);
   } catch (err) {
-    throw `failed to read ${path}, ` + err.stack;
-    // throw err
+    throw `Failed to read ${path}, ` + err.stack;
   }
 }
 

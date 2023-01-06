@@ -8,7 +8,7 @@
   "compilerOptions": {
     "jsx": "react-jsxdev",
     "jsxImportSource": "react",
-    "lib":["dom","deno.ns","dom.iterable", "dom.asynciterable"]
+    "lib": ["dom", "deno.ns", "dom.iterable", "dom.asynciterable"]
   },
   "importMap": "./importMap.json"
 }
