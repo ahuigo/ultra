@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import useServerContext from "ultra/hooks/use-server-context.js";
 import { DefaultLayout } from "./layouts/DefaultLayout.tsx";
 
-const HomePage = lazy(() => import("./pages/Home.tsx"));
-const AboutPage = lazy(() => import("./pages/About.tsx"));
+const HomePage = lazy(() => import("@/pages/Home.tsx"));
+const AboutPage = lazy(() => import("@/pages/About.tsx"));
 
 function RouteNotFound() {
   useServerContext((context) => {
