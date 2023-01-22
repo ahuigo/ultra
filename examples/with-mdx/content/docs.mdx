@@ -1,5 +1,19 @@
+import { useState} from 'react'
+
+export function Count(){
+    const [c, setC] = useState(0)
+    return <div onClick={()=>setC(c+1)}>
+        counter:{c}
+    </div>
+}
+
 # hello with mdx
 
 mm
 
 ![image description](/grid_1.webp)
+
+<div>
+demo
+<Count />
+</div>
