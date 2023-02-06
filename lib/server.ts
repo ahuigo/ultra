@@ -80,7 +80,7 @@ export async function createServer(
     })(context,next);
   });
 
-  // Serve anything else 
+  // Serve anything else
   // deno-fmt-ignore
   server.get("*", serveStatic({
     root: resolve(root, "./"),

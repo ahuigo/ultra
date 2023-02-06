@@ -8,7 +8,6 @@ import { GlobalLayout } from "./layouts/global.tsx";
 const Note = lazy(() => import("./pages/note.tsx"));
 // console.log(lNote);
 
-
 export const routes: RouteObject[] = [
   {
     element: <GlobalLayout />,

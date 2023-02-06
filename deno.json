@@ -1,43 +1,42 @@
 {
-    "tasks": {
-      "dev": "deno run -A tools/dev.ts",
-      "test": "deno task test:unit && deno task test:fixture && deno task test:examples",
-      "test:unit": "deno test -A ./test/unit",
-      "test:fixture": "cd ./test/fixture && deno test -A",
-      "test:examples": "deno run -A ./tools/test-examples.ts basic with-csr with-unocss",
-      "version-bump:minor": "deno run -A tools/patch.ts --release=minor",
-      "version-bump:patch": "deno run -A tools/patch.ts --release=patch"
-    },
-    "lock": false,
-    "lint": {
-      "files": {
-        "exclude": [
-          ".deno-cache"
-        ]
-      }
-    },
-    "fmt": {
-      "files": {
-        "exclude": [
-          ".deno-cache"
-        ]
-      },
-      "options": {
-        "indentWidth": 2,
-        "useTabs": false,
-        "singleQuote": false
-      }
-    },
-    "compilerOptions": {
-      "jsx": "react-jsxdev",
-      "jsxImportSource": "react",
-      "lib": [
-        "deno.ns",
-        "dom",
-        "dom.iterable",
-        "dom.asynciterable"
+  "tasks": {
+    "dev": "deno run -A tools/dev.ts",
+    "test": "deno task test:unit && deno task test:fixture && deno task test:examples",
+    "test:unit": "deno test -A ./test/unit",
+    "test:fixture": "cd ./test/fixture && deno test -A",
+    "test:examples": "deno run -A ./tools/test-examples.ts basic with-csr with-unocss",
+    "version-bump:minor": "deno run -A tools/patch.ts --release=minor",
+    "version-bump:patch": "deno run -A tools/patch.ts --release=patch"
+  },
+  "lock": false,
+  "lint": {
+    "files": {
+      "exclude": [
+        ".deno-cache"
+      ]
+    }
+  },
+  "fmt": {
+    "files": {
+      "exclude": [
+        ".deno-cache"
       ]
     },
-    "importMap": "./importMap.dev.json"
-  }
-  
+    "options": {
+      "indentWidth": 2,
+      "useTabs": false,
+      "singleQuote": false
+    }
+  },
+  "compilerOptions": {
+    "jsx": "react-jsxdev",
+    "jsxImportSource": "react",
+    "lib": [
+      "deno.ns",
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable"
+    ]
+  },
+  "importMap": "./importMap.dev.json"
+}
