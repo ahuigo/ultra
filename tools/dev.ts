@@ -80,6 +80,7 @@ async function dev() {
 
     // Valid entrypoints for our examples
     const serverEntrypoints = [
+      "./dev.ts",
       "./server.tsx",
       "./server.jsx",
       "./server.ts",
